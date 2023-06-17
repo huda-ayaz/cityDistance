@@ -8,23 +8,21 @@ const Input = () => {
     const [unit, setUnit] = useState("");
 
     async function getDistance() {
-
-            
-            try { const distance = await axios.get(`https://zip-api.eu/api/v1/distance/US-${zipCode}/US-${zipCode2}/${unit}`);
-            setDistance(distance.data.distance);
-        } catch(error) {
-            console.error(error);
-        };
-        
+      try { const distance = await axios.get(`https://zip-api.eu/api/v1/distance/US-${zipCode}/US-${zipCode2}/${unit}`);
+      setDistance(distance.data.distance);
+      if (unit=="") {setUnit("km")}
+      } catch(error) {
+          console.error(error);
+      };
     }
 
     const handleInputChange = (event, setState) => {
-        setState(event.target.value);
+      setState(event.target.value);
     };
 
     const selectValue = (event) => {
-        setUnit(event.target.value);
-        setDistance("");
+      setUnit(event.target.value);
+      setDistance("");
     };
     
     return (
@@ -37,7 +35,7 @@ const Input = () => {
           value={zipCode2}
           onChange={(event) => handleInputChange(event, setZipCode2)}
         />
-        <select onChange={selectValue}>
+        <select value={unit} onChange={selectValue}>
           <option value="km">km</option>
           <option value="mi">mi</option>
         </select>
